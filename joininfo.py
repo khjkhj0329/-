@@ -1,4 +1,4 @@
-from join import Join
+from home import Join
 
 
 class Infoall:
