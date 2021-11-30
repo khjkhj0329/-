@@ -1,39 +1,40 @@
 import tkinter as tk
-from tkinter import LEFT
+from tkinter import LEFT, messagebox
+
 
 
 class Rice():
     def __init__(self):
         self.start()
-        self.root = tk.Tk()
 
     # 시작 화면
     def start(self):
-        self.root = tk.Tk()
-        self.root.title("나혼자 분리수거")
-        self.root.geometry("1000x700+250+35")
-        self.root.resizable(False, False)
-        self.root.config(bg="#708467")
+        self.start = tk.Tk()
+        self.start.title("나혼자 분리수거")
+        self.start.geometry("1000x700+250+35")
+        self.start.resizable(False, False)
+        self.start.config(bg="#708467")
 
         title_img = tk.PhotoImage(file="image/title_img.png")
-        title_img1 = tk.Label(self.root, image=title_img, bg="#708467")
+        title_img1 = tk.Label(self.start, image=title_img, bg="#708467")
         title_img1.place(x=435, y=180)
 
-        startBtn = tk.Button(self.root, width=256, height=70, borderwidth=0, bg="#708467", command=self.login_in)
+        startBtn = tk.Button(self.start, width=256, height=70, borderwidth=0, bg="#708467", command=self.login_in)
         startBtn.place(x=375, y=450)
         btnStart1 = tk.PhotoImage(file="image/start_btn.png")
         startBtn.config(image=btnStart1)
 
-        make_in = tk.Label(self.root, text="made.빛이 나는 솔로", bg="#708467")
+        make_in = tk.Label(self.start, text="made.빛이 나는 솔로", bg="#708467")
         make_in.configure(font=('Corbel', 15))
         make_in.place(x=795, y=650)
 
-        self.root.mainloop()
+        self.start.mainloop()
 
     def save_name(self, text):
         name_f = open("name.txt", "a")
         name_f.write(text+"\n")
 
+    # 자신의 이름 저장
     def login_in(self):
         self.login = tk.Toplevel()
         self.login.title("나혼자 분리수거")
@@ -57,10 +58,6 @@ class Rice():
         btnLogin = tk.PhotoImage(file="image/login_btn.png")
         loginBtn.config(image=btnLogin)
 
-        # really_Btn = tk.Button(self.login, text="시작하기", width=20, height=2, borderwidth=0, bg="#F9F3D5" ,fg="black", command=self.move)
-        # really_Btn.configure(font=('Corbel', 10))
-        # really_Btn.place(x=530, y=20)
-
         self.login.mainloop()
 
     # 마이페이지
@@ -70,7 +67,8 @@ class Rice():
         self.mypage_in.config(bg="#708467")
         mypage_f = open("name.txt", "r")
         mypage_text = mypage_f.read()
-        mypage_label = tk.Label(self.mypage_in, text=mypage_text)
+        mypage_label = tk.Label(self.mypage_in, text="지금까지 가입한 사용자" + mypage_text, bg="#708467")
+        mypage_label.configure(font=('Corbel', 15))
         mypage_label.pack()
 
     # 메인 창
@@ -80,6 +78,8 @@ class Rice():
         self.move.geometry("1000x700+200+40")
         self.move.resizable(False, False)
         self.move.config(bg="#708467")
+
+        self.login.destroy()
 
         title_bar = tk.PhotoImage(file="image/title_bar.png")
         bar_title = tk.Label(self.move, image=title_bar, bg="#708467")
@@ -117,7 +117,6 @@ class Rice():
 
         self.move.mainloop()
 
-
     # 검색창
     def search_in(self):
         self.search_in = tk.Toplevel()
@@ -135,7 +134,7 @@ class Rice():
         entry_search.place(x=297, y=160)
 
         # 검색 버튼
-        trashBtn = tk.Button(self.search_in, width=50, height=50, borderwidth=0, bg="#708467")
+        trashBtn = tk.Button(self.search_in, width=50, height=50, borderwidth=0, bg="#708467", command=self.search_finish)
         trashBtn.place(x=710, y=152)
         btnImage1 = tk.PhotoImage(file="image/search_btn.png")
         trashBtn.config(image=btnImage1)
@@ -150,6 +149,17 @@ class Rice():
         make_in.place(x=795, y=650)
 
         self.search_in.mainloop()
+
+    def search_finish(self):
+        self.search_finish= tk.Toplevel()
+        self.search_finish.title("나혼자 분리수거")
+        self.search_finish.geometry("1000x700")
+        self.search_finish.resizable(False, False)
+        self.search_finish.config(bg="#708467")
+
+
+
+        self.search_finish.mainloop()
 
     # 일반 쓰레기
     def trash_in(self):
@@ -456,7 +466,6 @@ class Rice():
         label.pack(pady=180)
 
         self.plastic_etc.mainloop()
-
 
 if __name__ == '__main__':
     rice = Rice()
