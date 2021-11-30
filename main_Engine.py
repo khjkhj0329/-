@@ -1,33 +1,34 @@
 import tkinter as tk
-from tkinter import LEFT, N, RIGHT, Y
+from tkinter import LEFT
 
 
 class Rice():
     def __init__(self):
         self.start()
+        self.root = tk.Tk()
 
     # 시작 화면
     def start(self):
-        self.start = tk.Tk()
-        self.start.title("나혼자 분리수거")
-        self.start.geometry("1000x700+250+35")
-        self.start.resizable(False, False)
-        self.start.config(bg="#708467")
+        self.root = tk.Tk()
+        self.root.title("나혼자 분리수거")
+        self.root.geometry("1000x700+250+35")
+        self.root.resizable(False, False)
+        self.root.config(bg="#708467")
 
         title_img = tk.PhotoImage(file="image/title_img.png")
-        title_img1 = tk.Label(self.start, image=title_img, bg="#708467")
+        title_img1 = tk.Label(self.root, image=title_img, bg="#708467")
         title_img1.place(x=435, y=180)
 
-        startBtn = tk.Button(self.start, width=256, height=70, borderwidth=0, bg="#708467", command=self.login_in)
+        startBtn = tk.Button(self.root, width=256, height=70, borderwidth=0, bg="#708467", command=self.login_in)
         startBtn.place(x=375, y=450)
         btnStart1 = tk.PhotoImage(file="image/start_btn.png")
         startBtn.config(image=btnStart1)
 
-        make_in = tk.Label(self.start, text="made.빛이 나는 솔로", bg="#708467")
+        make_in = tk.Label(self.root, text="made.빛이 나는 솔로", bg="#708467")
         make_in.configure(font=('Corbel', 15))
         make_in.place(x=795, y=650)
 
-        self.start.mainloop()
+        self.root.mainloop()
 
     def save_name(self, text):
         name_f = open("name.txt", "a")
@@ -46,16 +47,19 @@ class Rice():
 
         str = tk.StringVar()
         name_txt = tk.Entry(self.login, width=16, font=("Courier", 20), textvariable=str)
-        name_txt.place(x=210, y=300, height=50)
+        name_txt.place(x=180, y=300, height=40)
 
-        loginBtn = tk.Button(self.login, width=256, height=70, borderwidth=0, bg="#708467", command=lambda:self.save_name(str.get()))
+        insertBtn = tk.Button(self.login, width=10, height=2, text="Insert", bg="#F7F4E3", command=lambda:self.save_name(str.get()))
+        insertBtn.place(x=450, y=300)
+
+        loginBtn = tk.Button(self.login, width=256, height=70, borderwidth=0, bg="#708467", command=self.move)
         loginBtn.place(x=212, y=370)
         btnLogin = tk.PhotoImage(file="image/login_btn.png")
         loginBtn.config(image=btnLogin)
 
-        really_Btn = tk.Button(self.login, text="시작하기", width=20, height=2, borderwidth=0, bg="#F9F3D5" ,fg="black", command=self.move)
-        really_Btn.configure(font=('Corbel', 10))
-        really_Btn.place(x=530, y=20)
+        # really_Btn = tk.Button(self.login, text="시작하기", width=20, height=2, borderwidth=0, bg="#F9F3D5" ,fg="black", command=self.move)
+        # really_Btn.configure(font=('Corbel', 10))
+        # really_Btn.place(x=530, y=20)
 
         self.login.mainloop()
 
