@@ -1,6 +1,7 @@
 import tkinter as tk
 from tkinter import LEFT, messagebox
 
+import self as self
 
 
 class Rice():
@@ -47,18 +48,25 @@ class Rice():
         title_img1.place(x=275, y=30)
 
         str = tk.StringVar()
-        name_txt = tk.Entry(self.login, width=16, font=("Courier", 20), textvariable=str)
-        name_txt.place(x=180, y=300, height=40)
-
+        self.name_txt = tk.Entry(self.login, width=16, font=("Courier", 20), textvariable=str)
+        self.name_txt.place(x=180, y=300, height=40)
+        
         insertBtn = tk.Button(self.login, width=10, height=2, text="Insert", bg="#F7F4E3", command=lambda:self.save_name(str.get()))
         insertBtn.place(x=450, y=300)
 
-        loginBtn = tk.Button(self.login, width=256, height=70, borderwidth=0, bg="#708467", command=self.move)
+        loginBtn = tk.Button(self.login, width=256, height=70, borderwidth=0, bg="#708467", command=self.login_chek)
         loginBtn.place(x=212, y=370)
         btnLogin = tk.PhotoImage(file="image/login_btn.png")
         loginBtn.config(image=btnLogin)
 
         self.login.mainloop()
+
+    def login_chek(self):
+        if self.name_txt.get() == "":
+            messagebox.showinfo("나혼자 분리수거", "이름을 입력해주세요 :)")
+        elif self.name_txt.get() != "":
+            self.login.destroy()
+            self.move()
 
     # 마이페이지
     def mypage_in(self):
@@ -78,9 +86,7 @@ class Rice():
         self.move.geometry("1000x700+200+40")
         self.move.resizable(False, False)
         self.move.config(bg="#708467")
-
-        self.login.destroy()
-
+            
         title_bar = tk.PhotoImage(file="image/title_bar.png")
         bar_title = tk.Label(self.move, image=title_bar, bg="#708467")
         bar_title.place(x=360, y=30)
@@ -130,8 +136,8 @@ class Rice():
         bar_title2.place(x=360, y=30)
 
         #검색 창
-        entry_search = tk.Entry(self.search_in, width=25, font=("Courier", 20))
-        entry_search.place(x=297, y=160)
+        self.entry_search = tk.Entry(self.search_in, width=25, font=("Courier", 20))
+        self.entry_search.place(x=297, y=160)
 
         # 검색 버튼
         trashBtn = tk.Button(self.search_in, width=50, height=50, borderwidth=0, bg="#708467", command=self.search_finish)
@@ -139,29 +145,35 @@ class Rice():
         btnImage1 = tk.PhotoImage(file="image/search_btn.png")
         trashBtn.config(image=btnImage1)
 
-        backBtn = tk.Button(self.search_in, width=66, height=59, borderwidth=0, bg="#708467", command=self.move)
-        backBtn.place(x=900, y=30)
-        backImage = tk.PhotoImage(file="image/mypage_in.png")
-        backBtn.config(image=backImage)
-
         make_in = tk.Label(self.search_in, text="made.빛이 나는 솔로", bg="#708467")
         make_in.configure(font=('Corbel', 15))
         make_in.place(x=795, y=650)
 
         self.search_in.mainloop()
 
-    def search_finish(self):
-        self.search_finish= tk.Toplevel()
-        self.search_finish.title("나혼자 분리수거")
-        self.search_finish.geometry("1000x700")
-        self.search_finish.resizable(False, False)
-        self.search_finish.config(bg="#708467")
+    # 검색 중
+    # def search_finish(self):
+    #     searchDic = {"닭 뼈": "일반 쓰레기", "생선 가시": "일반 쓰레기", "기저귀": "일반 쓰레기", "마늘 껍질": "일반 쓰레기",
+    #                  "차 티백": "일반 쓰레기", "계란 껍질": "일반 쓰레기", "생리대": "일반 쓰레기", "밤 껍질": "일반 쓰레기", "박스 테이프": "일반 쓰레기",
+    #                  "소 뼈": "일반 쓰레기", "돼지 뼈": "일반 쓰레기", "과일 씨": "과일 씨", "양파 껍질": "일반 쓰레기", "옥수수 껍질": "일반 쓰레기",
+    #                  "견과류 껍질": "일반 쓰레기",
+    #                  "신문지": "재활용", "우유팩": "재활용", "종이컵": "재활용", "병": "재활용", "부탄가스": "재활용", "살충제용기": "재활용", "통조림통": "재활용",
+    #                  "에어졸": "재활용", "공구": "재활용", "철사": "재활용", "못": "재활용", "쇠붙이": "재활용", "알루미늄": "재활용", "스텐": "재활용",
+    #                  "샷시": "재활용",
+    #                  "순모양복": "재활용", "내의": "재할용", "야쿠르트병": "재활용", "라면 봉지": "재활용", "머리빗": "재활용", "물바가지": "재활용",
+    #                  "쓰레기통": "재활용"}
+    #     result = []
+    #     result2 = []
+    #     search_in = self.entry_search.get()
+    #     for search in searchDic.keys():
+    #         if search_in in search:
+    #             result.append(search)
+    #     for search_finish in searchDic.values():
+    #         if search == search_in:
+    #             result2.append(search_finish)
 
 
-
-        self.search_finish.mainloop()
-
-    # 일반 쓰레기
+        # 일반 쓰레기
     def trash_in(self):
         self.trash_in = tk.Toplevel()
         self.trash_in.title("나혼자 분리수거")
@@ -176,7 +188,7 @@ class Rice():
         f = open("trash_menu.txt", "r", encoding="utf-8")
         text = f.read()
         label = tk.Label(self.trash_in, text=text, bg="#708467", height=100, fg="white", justify=LEFT)
-        label.configure(font=('Corbel', 13))
+        label.configure(font=('Corbel', 15))
         label.pack(pady=180)
 
         self.trash_in.mainloop()
@@ -259,7 +271,6 @@ class Rice():
         title_paper.configure(font=('Corbel', 15))
         title_paper.place(x=795, y=46)
 
-
         f = open("paper_info.txt", "r", encoding="utf-8")
         text = f.read()
         label = tk.Label(self.paper_way, text=text, bg="#708467", height=100, fg="white", justify=LEFT)
@@ -333,6 +344,7 @@ class Rice():
 
         self.etc_way.mainloop()
 
+    # 세부 메뉴
     def etc_in(self):
         self.etc_in = tk.Toplevel()
         self.etc_in.title("나혼자 분리수거")
@@ -349,7 +361,6 @@ class Rice():
         foodBtn.place(x=270, y=200)
         foodmage = tk.PhotoImage(file="image/etc_food.png")
         foodBtn.config(image=foodmage)
-
 
         # 헌 옷
         dressBtn = tk.Button(self.etc_in, width=150, height=180, borderwidth=0, bg="#708467", command=self.dress_etc)
@@ -390,7 +401,7 @@ class Rice():
         f = open("etc_food.txt", "r", encoding="utf-8")
         text = f.read()
         label = tk.Label(self.food_etc, text=text, bg="#708467", height=100, fg="white", justify=LEFT)
-        label.configure(font=('Corbel', 13))
+        label.configure(font=('Corbel', 15))
         label.pack(pady=180)
 
         self.food_etc.mainloop()
@@ -414,7 +425,7 @@ class Rice():
         f = open("etc_dress.txt", "r", encoding="utf-8")
         text = f.read()
         label = tk.Label(self.dress_etc, text=text, bg="#708467", height=100, fg="white", justify=LEFT)
-        label.configure(font=('Corbel', 13))
+        label.configure(font=('Corbel', 15))
         label.pack(pady=180)
 
         self.dress_etc.mainloop()
@@ -438,7 +449,7 @@ class Rice():
         f = open("etc_styrofoam.txt", "r", encoding="utf-8")
         text = f.read()
         label = tk.Label(self.styrofoam_etc, text=text, bg="#708467", height=100, fg="white", justify=LEFT)
-        label.configure(font=('Corbel', 13))
+        label.configure(font=('Corbel', 15))
         label.pack(pady=180)
 
         self.styrofoam_etc.mainloop()
